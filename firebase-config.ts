@@ -7,12 +7,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCXUltytRfDzWJHYFJL75Dg_WQTQS9cNiI",
-  authDomain: "iths-crossplatform-90b8d.firebaseapp.com",
-  projectId: "iths-crossplatform-90b8d",
-  storageBucket: "iths-crossplatform-90b8d.appspot.com",
-  messagingSenderId: "503967350746",
-  appId: "1:503967350746:web:f5c778bfd594533d590ae3",
+  apiKey: "AIzaSyBMmYkfdTMoupLQF8tEFQtsic9LjtyTzd8",
+  authDomain: "megasupercooldragon.firebaseapp.com",
+  projectId: "megasupercooldragon",
+  storageBucket: "megasupercooldragon.appspot.com",
+  messagingSenderId: "719804295406",
+  appId: "1:719804295406:web:f67f543af2f028faf62bff"
 };
 
 // Initialize Firebase

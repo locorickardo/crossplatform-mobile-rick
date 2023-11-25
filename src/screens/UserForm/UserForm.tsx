@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input, Button } from "@rneui/themed";
 import { useRef, useState } from "react";
+import { useUpdateUserMutation } from "../../store/api/usersApi";
 import { useTranslation } from "react-i18next";
 import {
   Text,
@@ -10,23 +11,62 @@ import {
   Keyboard,
 } from "react-native";
 import { useToast } from "react-native-toast-notifications";
+import { useDeleteUserMutation } from '../../store/api/usersApi';
 
 import { useCreateUserMutation } from "../../store/api/usersApi";
 
-export const UserForm = (props) => {
-  const { navigation } = props;
-  const lastNameRef = useRef(null);
-
-  const { t } = useTranslation();
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [createUser, { isLoading }] = useCreateUserMutation();
+export const UserForm = ({ navigation, route }) => {
+  const { user } = route.params; // Fetch user data passed from navigation
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [deleteUser] = useDeleteUserMutation(); // Use the deleteUser mutation
+  const [updateUser, { isLoading }] = useCreateUserMutation(); // Fixed the function name
   const toast = useToast();
 
+  const handleDelete = () => {
+    deleteUser({ id: user.id }) // Assuming the API accepts an object with an 'id' field for deletion
+      .then(() => {
+        toast.show(`User ${firstName} ${lastName} deleted successfully`, {
+          type: "success",
+          placement: "top",
+          duration: 4000,
+          animationType: "slide-in",
+        });
+        navigation.navigate("UserList");
+      })
+      .catch((error) => {
+        toast.show(error.message, { type: "danger" });
+      });
+  };
+
   const handleSubmit = () => {
-    console.log("firstName: ", firstName);
-    console.log("lastName: ", lastName);
+    if (user.id) {
+      updateUser({
+        id: user.id,
+        user: {
+          firstName,
+          lastName,
+        },
+      })
+
+        .then(() => {
+          navigation.navigate("UserList");
+          toast.show(`User ${firstName} ${lastName} updated successfully!`, {
+            type: "success",
+            placement: "top",
+            duration: 4000,
+            animationType: "slide-in",
+          });
+          navigation.navigate("UserList");
+        })
+        .catch((error) => {
+          toast.show(error, { type: "danger" });
+        });
+    } else {
+      useCreateUserMutation({
+
+      })
+    }
 
     if (firstName === "" || lastName === "") {
       // show toast, must fill all inputs
@@ -40,7 +80,7 @@ export const UserForm = (props) => {
       return;
     }
 
-    createUser({
+    updateUser({
       user: {
         firstName,
         lastName,
@@ -61,6 +101,44 @@ export const UserForm = (props) => {
         toast.show(error, { type: "danger" });
       });
   };
+  
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.parentContainer}>
+        <View style={styles.container}>
+          <Text>Edit user details</Text>
+          <Input
+            value={firstName}
+            onChangeText={(text) => setFirstName(text)}
+            placeholder="First name"
+          />
+          <Input
+            value={lastName}
+            onChangeText={(text) => setLastName(text)}
+              placeholder="Last name"
+            />
+            {/* Add buttons for Update and Delete */}
+            <Button
+              title="Update"
+              disabled={isLoading}
+              onPress={() => updateUser({
+                id: user.id,
+                user: {
+                  firstName,
+                  lastName,
+                },
+              })}
+            />
+            <Button
+              title="Delete"
+              disabled={isLoading}
+              onPress={() => handleDelete()}
+            />
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -68,25 +146,23 @@ export const UserForm = (props) => {
         <View style={styles.container}>
           <Text>Create your user</Text>
           <Input
-            returnKeyType="next"
-            onSubmitEditing={() => lastNameRef.current.focus()}
-            blurOnSubmit={false}
             value={firstName}
-            disabled={isLoading}
             onChangeText={(text) => setFirstName(text)}
             placeholder="First name"
           />
           <Input
-            ref={lastNameRef}
             value={lastName}
-            disabled={isLoading}
-            returnKeyType="send"
-            onSubmitEditing={() => handleSubmit()}
             onChangeText={(text) => setLastName(text)}
             placeholder="Last name"
           />
           <Button
-            title={t("createUser")}
+            title={("createUser")}
+            disabled={isLoading}
+            loading={isLoading}
+            onPress={() => handleSubmit()}
+          />
+          <Button
+            title={("Delete")}
             disabled={isLoading}
             loading={isLoading}
             onPress={() => handleSubmit()}
