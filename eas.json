@@ -1,16 +1,16 @@
 {
   "build": {
-    "crossplatform-mobile": {
+    "crossplatform-mobile-rick": {
       "android": {
         "buildType": "apk"
       }
     },
-    "crossplatform-mobile2": {
+    "crossplatform-mobile-rick2": {
       "android": {
         "gradleCommand": ":app:assembleRelease"
       }
     },
-    "crossplatform-mobile3": {
+    "crossplatform-mobile-rick3": {
       "developmentClient": true
     },
     "production": {}

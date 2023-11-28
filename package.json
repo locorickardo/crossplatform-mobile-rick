@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "build-android": "eas build -p android --profile crossplatform-mobile"
+    "build-android": "eas build -p android --profile crossplatform-mobile-rick"
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
