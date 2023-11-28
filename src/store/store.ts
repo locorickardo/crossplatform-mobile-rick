@@ -7,6 +7,7 @@ import { usersApi } from "./api/usersApi";
 import authSlice from "./slices/authSlice";
 import configSlice from "./slices/configSlice";
 import { initializeI18n } from "../../i18n";
+import { postsApi } from "./api/postsApi";
 
 const middlewares = [usersApi.middleware];
 
@@ -26,6 +27,7 @@ const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
     [usersApi.reducerPath]: usersApi.reducer,
+    [postsApi.reducerPath]: postsApi.reducer,
     auth: authSlice,
     config: configSlice,
   }),
@@ -42,7 +44,7 @@ export const store = configureStore({
           "persist/PURGE",
         ],
       },
-    }).concat(...middlewares),
+    }).concat(usersApi.middleware, postsApi.middleware),
 });
 
 export const persistor = persistStore(store, null, () => {
@@ -51,3 +53,5 @@ export const persistor = persistStore(store, null, () => {
 });
 
 setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof store.getState>;

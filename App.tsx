@@ -12,6 +12,7 @@ import { UserForm } from "./src/screens/UserForm/UserForm";
 import { UserInfo } from "./src/screens/UserInfo/UserInfo";
 import UserList from "./src/screens/UserList/UserList";
 import PostForm from "./src/screens/PostForm/PostForm";
+import PostList from "./src/screens/PostList/PostList";
 import { persistor, store } from "./src/store/store";
 import React from "react";
 
@@ -23,6 +24,7 @@ const UserListStackScreen = () => {
       <UserListStack.Screen name="UserList" component={UserList} />
       <UserListStack.Screen name="UserInfo" component={UserInfo} />
       <UserListStack.Screen name="PostForm" component={PostForm} />
+      <UserListStack.Screen name="PostList" component={PostList} />
     </UserListStack.Navigator>
   );
 };
@@ -38,6 +40,16 @@ const NavigationWrapper = () => {
         <Tab.Screen
           name="UserListStack"
           component={UserListStackScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="PostList"
+          component={PostList}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="PostForm"
+          component={PostForm}
           options={{ headerShown: false }}
         />
         <Tab.Screen name="UserForm" component={UserForm} />

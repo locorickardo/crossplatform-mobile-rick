@@ -1,54 +1,56 @@
-import React from 'react';
-import {
-    useCreatePostMutation,
-    useGetPostsQuery,
-    useDeletePostMutation,
-    useUpdatePostMutation,
-} from '../../store/api/postsApi';
-  
-  // Example usage in a component or function
-  const MyComponent = () => {
-    const { data: posts, isLoading, isError } = useGetPostsQuery(undefined, {});
-    const [createPost] = useCreatePostMutation();
-    const [deletePost] = useDeletePostMutation();
-    const [updatePost] = useUpdatePostMutation();
+import React, { useState } from "react";
+import { View, StyleSheet, TextInput, Button } from "react-native";
+import { useSelector } from "react-redux";
+import { useCreatePostMutation } from "../../store/api/postsApi";
+import { RootState } from "../../store/store";
 
-    // Use these functions as needed in your application logic
-    const handleCreatePost = (newPostData) => {
-        createPost({ post: newPostData })
-            .then((response) => {
-                // Handle successful creation
-            })
-            .catch((error) => {
-                // Handle error
-            });
-    };
-  
-    const handleDeletePost = (postId) => {
-      deletePost(postId)
-        .then((response) => {
-          // Handle successful deletion
-        })
-        .catch((error) => {
-          // Handle error
-        });
-    };
-  
-    const handleUpdatePost = (postId, updatedPostData) => {
-      updatePost({ post: { id: postId, ...updatedPostData } })
-        .then((response) => {
-          // Handle successful update
-        })
-        .catch((error) => {
-          // Handle error
-        });
-    };
-  
-    // Render the component using the fetched posts data, isLoading, isError, etc.
-  };
-  
-  const PostForm = () => {
-    return <PostForm />;
-  }
+const PostForm = ({ navigation }) => {
+  const [createPost, { isLoading }] = useCreatePostMutation();
+  const userOnline = useSelector((state: RootState) => state.auth.loggedInAs);
+  const [text, setText] = useState("");
 
-  export default PostForm;
+  const onSubmit = async () => {
+    const createdDate = new Date().toLocaleDateString();
+    const userName = `${userOnline.firstName} ${userOnline.lastName}`;
+
+    createPost({
+      post: {
+        text,
+        createdDate,
+        userName,
+      },
+    });
+    navigation.navigate("PostList");
+};
+
+return (
+  <View style={styles.container}>
+    <TextInput
+      style={styles.input}
+      placeholder="Enter post text"
+      onChangeText={(text) => setText(text)}
+      value={text}
+    />
+    <Button title="Submit" onPress={onSubmit} disabled={isLoading} />
+  </View>
+);
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 20,
+  },
+  input: {
+    width: "100%",
+    height: 40,
+    borderWidth: 1,
+    borderColor: "black",
+    marginBottom: 20,
+    padding: 10,
+  },
+});
+
+export default PostForm;

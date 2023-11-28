@@ -24,14 +24,8 @@ const firebaseBaseQuery = async ({ baseUrl, url, method, body }) => {
     }
 
     case "DELETE": {
-      const docRef = doc(db, `${url}/${body.id}`); // Get reference to the document
-      await deleteDoc(docRef); // Delete the document
-      return { data: { id: body.id } };
-    }
-
-    case "PUT": {
-      await updateDoc(doc(db, url, body.id), body);
-      return { data: { ...body } };
+      const docRef = await deleteDoc(doc(db, url, body.id));
+      return { data: { id: docRef } };
     }
 
     default:
@@ -64,7 +58,7 @@ export const postsApi = createApi({
       }),
       providesTags: ["posts"],
     }),
-    // To delete a post based on its ID.
+    // Detta funkar inte, varför vet jag inte?!?!?!???!?!???? send help plis
     deletePost: builder.mutation({
       query: (id) => ({
         baseUrl: "",
