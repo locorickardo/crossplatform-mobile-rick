@@ -39,58 +39,58 @@ const firebaseBaseQuery = async ({ baseUrl, url, method, body }) => {
   }
 };
 
-export const usersApi = createApi({
-  reducerPath: "usersApi",
+export const postsApi = createApi({
+  reducerPath: "postsApi",
   baseQuery: firebaseBaseQuery,
-  tagTypes: ["users"],
+  tagTypes: ["posts"],
   endpoints: (builder) => ({
-    // För att skapa en ny user. Anropas såhär createUser({ user: { firstName: firstName, lastName: lastName }})
-    createUser: builder.mutation({
-      query: ({ user }) => ({
+    // To create a new post.
+    createPost: builder.mutation({
+      query: ({ post }) => ({
         baseUrl: "",
-        url: "users",
+        url: "posts", // Adjust the URL as per your database structure
         method: "POST",
-        body: user,
+        body: post,
       }),
-      invalidatesTags: ["users"],
+      invalidatesTags: ["posts"],
     }),
-    // För att hämta alla befintliga users
-    getUsers: builder.query({
+    // To get all existing posts.
+    getPosts: builder.query({
       query: () => ({
         baseUrl: "",
-        url: "users",
+        url: "posts", // Adjust the URL as per your database structure
         method: "GET",
         body: "",
       }),
-      providesTags: ["users"],
+      providesTags: ["posts"],
     }),
-    // För att radera en user baserat på id. Anropas såhär: deleteUser(id)
-    deleteUser: builder.mutation({
+    // To delete a post based on its ID.
+    deletePost: builder.mutation({
       query: (id) => ({
         baseUrl: "",
-        url: "users",
+        url: "posts", // Adjust the URL as per your database structure
         method: "DELETE",
         body: id,
       }),
-      invalidatesTags: ["users"],
+      invalidatesTags: ["posts"],
     }),
-    // För att uppdatera en user. Anropas såhär updateUser({ user: { id: user.id, firstName: firstName, lastName: lastName }})
-    updateUser: builder.mutation({
-      query: ({ user }) => ({
+    // To update a post.
+    updatePost: builder.mutation({
+      query: ({ post }) => ({
         baseUrl: "",
-        url: "users",
+        url: "posts", // Adjust the URL as per your database structure
         method: "PUT",
-        body: user,
+        body: post,
       }),
-      invalidatesTags: ["users"],
+      invalidatesTags: ["posts"],
     }),
   }),
 });
 
-// Exportera våra Queries och Mutations här.
+// Export Queries and Mutations.
 export const {
-  useCreateUserMutation,
-  useGetUsersQuery,
-  useDeleteUserMutation,
-  useUpdateUserMutation,
-} = usersApi;
+  useCreatePostMutation,
+  useGetPostsQuery,
+  useDeletePostMutation,
+  useUpdatePostMutation,
+} = postsApi;

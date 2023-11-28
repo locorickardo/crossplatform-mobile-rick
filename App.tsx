@@ -11,7 +11,9 @@ import { Settings } from "./src/screens/Settings/Settings";
 import { UserForm } from "./src/screens/UserForm/UserForm";
 import { UserInfo } from "./src/screens/UserInfo/UserInfo";
 import UserList from "./src/screens/UserList/UserList";
+import PostForm from "./src/screens/PostForm/PostForm";
 import { persistor, store } from "./src/store/store";
+import React from "react";
 
 const UserListStack = createNativeStackNavigator();
 
@@ -20,6 +22,7 @@ const UserListStackScreen = () => {
     <UserListStack.Navigator>
       <UserListStack.Screen name="UserList" component={UserList} />
       <UserListStack.Screen name="UserInfo" component={UserInfo} />
+      <UserListStack.Screen name="PostForm" component={PostForm} />
     </UserListStack.Navigator>
   );
 };
@@ -39,13 +42,15 @@ const NavigationWrapper = () => {
         />
         <Tab.Screen name="UserForm" component={UserForm} />
         {loggedInAs && (
-          <Tab.Screen
-            name="UserInfo"
-            component={UserInfo}
-            options={{
-              title: `${loggedInAs.firstName} ${loggedInAs.lastName}`,
-            }}
-          />
+          <>
+            <Tab.Screen
+              name="UserInfo"
+              component={UserInfo}
+              options={{
+                title: `${loggedInAs.firstName} ${loggedInAs.lastName}`,
+              }}
+            />
+          </>
         )}
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
