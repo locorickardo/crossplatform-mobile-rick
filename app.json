@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Twatter",
-    "slug": "Twatter",
+    "name": "dragon-project",
+    "slug": "dragon-project",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.albindalebysprinto.Twatter"
+      "package": "com.leblancdude.dragonproject"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "deb6ef89-5a04-4091-bb3b-b0361f47028f"
+        "projectId": "d3c3dd81-8d4e-4c75-8c5c-3927829fbf74"
       }
     }
   }
